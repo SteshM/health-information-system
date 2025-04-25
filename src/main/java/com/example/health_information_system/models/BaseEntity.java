@@ -1,5 +1,6 @@
 package com.example.health_information_system.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -27,4 +29,6 @@ public class BaseEntity {
     private ZonedDateTime updatedAt;
     @LastModifiedBy
     private String updatedBy;
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 }

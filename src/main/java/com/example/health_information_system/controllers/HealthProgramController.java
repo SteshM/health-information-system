@@ -7,9 +7,9 @@ import com.example.health_information_system.dtos.responses.StatusCodes;
 import com.example.health_information_system.mappers.HealthProgramMapper;
 import com.example.health_information_system.services.HealthProgramService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -33,7 +33,7 @@ public class HealthProgramController {
 
     }
 
-    @GetMapping("view")
+    @GetMapping("/view/{id}")
     public ResponseDTO<ProgramDTO>viewProgram(
             @PathVariable Long id
     ){
@@ -44,6 +44,17 @@ public class HealthProgramController {
                "Successfully fetched a health program",
                Collections.singletonList(healthProgram)
        );
+    }
+
+    @GetMapping("/search")
+    Page<ProgramDTO> searchPrograms(
+            Pageable page,
+            ProgramDTO healthPrograms
+    ){
+       var healthProgram= healthProgramMapper.map(healthPrograms);
+        return healthProgramService.searchHealthPrograms(page,healthProgram)
+                .map(healthProgramMapper::map);
+
     }
 
 }
