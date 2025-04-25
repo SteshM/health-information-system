@@ -15,9 +15,12 @@ import java.util.List;
 @RequestMapping("/v1/enrollment")
 @RequiredArgsConstructor
 public class EnrollmentController {
+    private static final String ENROL_PROGRAM = "/enrol";
+    private static final String FETCH_BY_PROGRAM = "/program/{programId}/clients";
+
     private final EnrollmentService enrollmentService;
 
-    @PostMapping("/enrol")
+    @PostMapping(ENROL_PROGRAM)
     public ResponseDTO<ProgramEnrolDTO>programEnrol(
            @Valid @RequestBody ProgramEnrolDTO programEnrolDTO){
         enrollmentService.enrolToProgram(programEnrolDTO);
@@ -28,7 +31,8 @@ public class EnrollmentController {
 
     }
 
-    @GetMapping("/program/{programId}/clients")
+
+    @GetMapping(FETCH_BY_PROGRAM)
     public ResponseDTO<ClientDTO> getClientsByProgram(
             @PathVariable Long programId) {
         List<ClientDTO> clientDTOs = enrollmentService.

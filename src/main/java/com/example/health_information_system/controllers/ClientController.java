@@ -19,10 +19,16 @@ import java.util.Collections;
 @RestController
 @RequiredArgsConstructor
 public class ClientController {
+    private static final String CREATE_CLIENT = "/create";
+    private static final String VIEW_CLIENT = "/view/{id}";
+    private static final String SEARCH = "/search";
+    private static final String CLIENT = "/{id}";
+    private static final String CLIENT_PROFILE = "/{clientId}/profile";
+
     private final ClientService clientService;
     private final ClientMapper clientMapper;
 
-    @PostMapping("create")
+    @PostMapping(CREATE_CLIENT)
     public ResponseDTO<ClientCreateDTO>createClient(
             @Valid @RequestBody()ClientCreateDTO clientCreateDTO
     ){
@@ -33,7 +39,8 @@ public class ClientController {
         );
     }
 
-    @GetMapping("/search")
+
+    @GetMapping(SEARCH)
     Page<ClientDTO> searchClients(
             Pageable page,
             ClientDTO clients
@@ -44,7 +51,8 @@ public class ClientController {
 
     }
 
-    @GetMapping("/view/{id}")
+
+    @GetMapping(VIEW_CLIENT)
     public ResponseDTO<ClientDTO>viewClient(
             @PathVariable Long id
     ){
@@ -57,7 +65,8 @@ public class ClientController {
         );
     }
 
-    @PutMapping("/{id}")
+
+    @PutMapping(CLIENT)
     public ResponseDTO<ClientDTO>updateClientDetails(
             @PathVariable() Long id,
             @RequestBody @Valid ClientCreateDTO clientCreateDTO
@@ -71,9 +80,10 @@ public class ClientController {
                 Collections.singletonList(response)
 
         );
-
     }
-    @DeleteMapping("/{id}")
+
+
+    @DeleteMapping(CLIENT)
     public ResponseDTO<Void> deleteClient(
             @PathVariable() Long id
     ) {
@@ -84,21 +94,16 @@ public class ClientController {
     }
 
 
-    @GetMapping("/{clientId}/profile")
+    @GetMapping(CLIENT_PROFILE)
     public ResponseDTO<ClientProfileDTO> getClientProfile(
             @PathVariable Long clientId) {
-
         // Fetch the client profile, including their enrolled programs
         ClientProfileDTO clientProfile = clientService.getClientProfile(clientId);
-
-        // Map to ResponseDTO (if necessary, you can customize the mapping)
         return new ResponseDTO<>(
                 StatusCodes.SUCCESS,
                 "Successfully fetched client profile",
                 Collections.singletonList(clientProfile)
         );
     }
-
-
 
 }

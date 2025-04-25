@@ -38,6 +38,7 @@ public class ClientService {
 
     }
 
+
     public Page<ClientEntity> searchClients(
             Pageable page, ClientEntity client) {
 
@@ -49,11 +50,13 @@ public class ClientService {
 
     }
 
+
     public ClientEntity getClient(Long id) {
         return clientRepo.findById(id).orElseThrow(()
                 -> new NoSuchElementException("client not found"));
 
     }
+
 
     public ClientEntity updateClientDetails(
             Long id, ClientCreateDTO clientCreateDTO) {
@@ -67,10 +70,10 @@ public class ClientService {
         Optional.ofNullable(clientCreateDTO.getPhoneNumber()).ifPresent(clientEntity::setPhoneNumber);
         Optional.ofNullable(clientCreateDTO.getPassword()).ifPresent(clientEntity::setPassword);
         Optional.ofNullable(clientCreateDTO.getMetaData()).ifPresent(clientEntity::setMetaData);
-
         return clientRepo.save(clientEntity);
 
     }
+
 
     public void deleteClient(Long id) {
         // Check if the client exists
@@ -81,6 +84,7 @@ public class ClientService {
         clientRepo.deleteById(id);
 
     }
+
 
     public ClientProfileDTO getClientProfile(Long clientId) {
         // Fetch the client entity

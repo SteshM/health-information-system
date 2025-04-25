@@ -18,10 +18,15 @@ import java.util.Collections;
 @RestController
 @RequiredArgsConstructor
 public class HealthProgramController {
+    private static final String CREATE_PROGRAM = "/create";
+    private static final String PROGRAM = "/view/{id}";
+    private static final String SEARCH = "/search";
+    private static final String A_PROGRAM = "/{id}";
+
     private final HealthProgramService healthProgramService;
     private final HealthProgramMapper healthProgramMapper;
 
-    @PostMapping("/create")
+    @PostMapping(CREATE_PROGRAM)
     public ResponseDTO<HealthProgramCreateDTO>createHealthProgram(
             @Valid @RequestBody HealthProgramCreateDTO healthProgramCreateDTO
     ){
@@ -33,7 +38,8 @@ public class HealthProgramController {
 
     }
 
-    @GetMapping("/view/{id}")
+
+    @GetMapping(PROGRAM)
     public ResponseDTO<ProgramDTO>viewProgram(
             @PathVariable Long id
     ){
@@ -46,7 +52,8 @@ public class HealthProgramController {
        );
     }
 
-    @GetMapping("/search")
+
+    @GetMapping(SEARCH)
     Page<ProgramDTO> searchPrograms(
             Pageable page,
             ProgramDTO healthPrograms
@@ -57,7 +64,8 @@ public class HealthProgramController {
 
     }
 
-    @PutMapping("/{id}")
+
+    @PutMapping(A_PROGRAM)
     public ResponseDTO<ProgramDTO>updateProgram(
             @PathVariable() Long id,
             @RequestBody @Valid HealthProgramCreateDTO healthProgramCreateDTO
@@ -74,7 +82,8 @@ public class HealthProgramController {
 
     }
 
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping(A_PROGRAM)
     public ResponseDTO<Void> deleteHealthProgram(
             @PathVariable() Long id
     ) {
@@ -83,8 +92,6 @@ public class HealthProgramController {
                 StatusCodes.SUCCESS,
                 "health program deleted successfully");
     }
-
-
 
 
 }
