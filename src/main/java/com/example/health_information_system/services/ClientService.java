@@ -15,6 +15,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,11 +30,16 @@ public class ClientService {
     private final ClientRepo clientRepo;
     private final EnrollmentRepo enrollmentRepo;
     private final ClientProfileMapper clientProfileMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public void createClient(
             @Valid ClientCreateDTO clientCreateDTO) {
         ClientEntity clientEntity = modelMapper.map(
                 clientCreateDTO,ClientEntity.class);
+        // Encrypt the password before saving
+        String encryptedPassword = passwordEncoder.encode
+                (clientCreateDTO.getPassword());
+        clientEntity.setPassword(encryptedPassword);
         clientRepo.save(clientEntity);
 
     }

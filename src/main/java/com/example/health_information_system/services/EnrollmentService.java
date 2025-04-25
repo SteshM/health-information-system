@@ -42,6 +42,7 @@ public class EnrollmentService {
         }
     }
 
+
     public List<ClientDTO> getClientsByProgram(Long programId) {
         HealthProgramEntity healthProgram = healthProgramRepo.findById(programId)
                 .orElseThrow(() -> new NoSuchElementException("Program not found"));
