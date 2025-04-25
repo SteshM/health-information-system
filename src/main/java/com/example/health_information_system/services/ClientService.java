@@ -6,6 +6,10 @@ import com.example.health_information_system.repositories.ClientRepo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +23,17 @@ public class ClientService {
         ClientEntity clientEntity = modelMapper.map(
                 clientCreateDTO,ClientEntity.class);
         clientRepo.save(clientEntity);
+
+    }
+
+    public Page<ClientEntity> searchClients(
+            Pageable page, ClientEntity client) {
+
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+                .withIgnoreCase();
+        Example<ClientEntity> example = Example.of(client, exampleMatcher);
+
+        return clientRepo.findAll(example, page);
 
     }
 }
