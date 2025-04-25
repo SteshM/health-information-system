@@ -4,6 +4,9 @@ import lombok.*;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -27,4 +30,9 @@ public class HealthProgramEntity extends BaseEntity {
         private LocalDate endDate;
 
         private Boolean active = true;
+
+        @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
+        private List<ClientProgramEnrollment> enrollments = new ArrayList<>();
+
+
 }

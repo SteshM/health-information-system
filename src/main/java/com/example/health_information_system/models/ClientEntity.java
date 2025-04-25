@@ -7,7 +7,9 @@ import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -32,6 +34,9 @@ public class ClientEntity extends BaseEntity {
     private String phoneNumber;
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, String> metaData = new HashMap<>();
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<ClientProgramEnrollment> enrollments = new ArrayList<>();
 
 
 }
