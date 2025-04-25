@@ -2,6 +2,7 @@ package com.example.health_information_system.controllers;
 
 import com.example.health_information_system.dtos.requests.ClientCreateDTO;
 import com.example.health_information_system.dtos.responses.ClientDTO;
+import com.example.health_information_system.dtos.responses.ProgramDTO;
 import com.example.health_information_system.dtos.responses.ResponseDTO;
 import com.example.health_information_system.dtos.responses.StatusCodes;
 import com.example.health_information_system.mappers.ClientMapper;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 @RequestMapping("/v1/client")
 @RestController
@@ -40,6 +43,20 @@ public class ClientController {
                 .map(clientMapper::map);
 
     }
+
+    @GetMapping("/view/{id}")
+    public ResponseDTO<ClientDTO>viewClient(
+            @PathVariable Long id
+    ){
+        var client = clientMapper.map
+                (clientService.getClient(id));
+        return new ResponseDTO<>(
+                StatusCodes.SUCCESS,
+                "Successfully fetched a client",
+                Collections.singletonList(client)
+        );
+    }
+
 
 
 }

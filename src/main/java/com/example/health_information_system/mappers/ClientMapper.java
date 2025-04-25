@@ -1,9 +1,7 @@
 package com.example.health_information_system.mappers;
 
 import com.example.health_information_system.dtos.responses.ClientDTO;
-import com.example.health_information_system.dtos.responses.ProgramDTO;
 import com.example.health_information_system.models.ClientEntity;
-import com.example.health_information_system.models.HealthProgramEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

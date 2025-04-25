@@ -1,7 +1,7 @@
 package com.example.health_information_system.services;
-
 import com.example.health_information_system.dtos.requests.ClientCreateDTO;
 import com.example.health_information_system.models.ClientEntity;
+import com.example.health_information_system.models.HealthProgramEntity;
 import com.example.health_information_system.repositories.ClientRepo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,8 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,12 @@ public class ClientService {
         Example<ClientEntity> example = Example.of(client, exampleMatcher);
 
         return clientRepo.findAll(example, page);
+
+    }
+
+    public ClientEntity getClient(Long id) {
+        return clientRepo.findById(id).orElseThrow(()
+                -> new NoSuchElementException("client not found"));
 
     }
 }
