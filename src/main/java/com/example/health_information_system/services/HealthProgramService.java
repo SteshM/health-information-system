@@ -65,7 +65,7 @@ public class HealthProgramService {
     }
 
     public void deleteHealthProgram(Long id) {
-        // Check if the parentBranch exists
+        // Check if the health program exists
         Optional<HealthProgramEntity> existingHealthProgram = healthProgramRepo.findById(id);
         if (existingHealthProgram.isEmpty()) {
             throw new RuntimeException("health program not found with ID: " + id);

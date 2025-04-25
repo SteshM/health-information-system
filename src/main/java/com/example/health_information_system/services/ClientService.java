@@ -1,6 +1,7 @@
 package com.example.health_information_system.services;
 import com.example.health_information_system.dtos.requests.ClientCreateDTO;
 import com.example.health_information_system.models.ClientEntity;
+import com.example.health_information_system.models.HealthProgramEntity;
 import com.example.health_information_system.repositories.ClientRepo;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -60,6 +61,16 @@ public class ClientService {
         Optional.ofNullable(clientCreateDTO.getMetaData()).ifPresent(clientEntity::setMetaData);
 
         return clientRepo.save(clientEntity);
+
+    }
+
+    public void deleteClient(Long id) {
+        // Check if the client exists
+        Optional<ClientEntity> existingClient = clientRepo.findById(id);
+        if (existingClient.isEmpty()) {
+            throw new RuntimeException("client not found with ID: " + id);
+        }
+        clientRepo.deleteById(id);
 
     }
 }

@@ -72,6 +72,15 @@ public class ClientController {
         );
 
     }
+    @DeleteMapping("/{id}")
+    public ResponseDTO<Void> deleteClient(
+            @PathVariable() Long id
+    ) {
+        clientService.deleteClient(id);
+        return new ResponseDTO<>(
+                StatusCodes.SUCCESS,
+                "client  deleted successfully");
+    }
 
 
 }
