@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.UUID;
 
 @RequestMapping("/v1/program")
 @RestController
@@ -73,6 +74,17 @@ public class HealthProgramController {
         );
 
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseDTO<Void> deleteHealthProgram(
+            @PathVariable() Long id
+    ) {
+        healthProgramService.deleteHealthProgram(id);
+        return new ResponseDTO<>(
+                StatusCodes.SUCCESS,
+                "health program deleted successfully");
+    }
+
 
 
 

@@ -63,4 +63,14 @@ public class HealthProgramService {
         return healthProgramRepo.save(healthProgram);
 
     }
+
+    public void deleteHealthProgram(Long id) {
+        // Check if the parentBranch exists
+        Optional<HealthProgramEntity> existingHealthProgram = healthProgramRepo.findById(id);
+        if (existingHealthProgram.isEmpty()) {
+            throw new RuntimeException("health program not found with ID: " + id);
+        }
+        healthProgramRepo.deleteById(id);
+
+    }
 }
