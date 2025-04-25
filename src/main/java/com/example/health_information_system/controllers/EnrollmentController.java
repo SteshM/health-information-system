@@ -1,14 +1,14 @@
 package com.example.health_information_system.controllers;
 
 import com.example.health_information_system.dtos.requests.ProgramEnrolDTO;
+import com.example.health_information_system.dtos.responses.ClientDTO;
 import com.example.health_information_system.dtos.responses.ResponseDTO;
 import com.example.health_information_system.dtos.responses.StatusCodes;
 import com.example.health_information_system.services.EnrollmentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/enrollment")
@@ -26,5 +26,24 @@ public class EnrollmentController {
         );
 
     }
+
+    @GetMapping("/program/{programId}/clients")
+    public ResponseDTO<ClientDTO> getClientsByProgram(
+            @PathVariable Long programId) {
+        List<ClientDTO> clientDTOs = enrollmentService.
+                getClientsByProgram(programId);
+        return new ResponseDTO<>(
+                StatusCodes.SUCCESS,
+                "Successfully fetched clients enrolled in program",
+                clientDTOs
+        );
+    }
+
+
+
+
+
+
+
 
 }

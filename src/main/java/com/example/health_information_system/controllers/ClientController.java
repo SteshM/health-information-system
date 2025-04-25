@@ -82,6 +82,8 @@ public class ClientController {
                 StatusCodes.SUCCESS,
                 "client  deleted successfully");
     }
+
+
     @GetMapping("/{clientId}/profile")
     public ResponseDTO<ClientProfileDTO> getClientProfile(
             @PathVariable Long clientId) {
