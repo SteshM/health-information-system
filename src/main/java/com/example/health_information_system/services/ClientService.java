@@ -1,8 +1,12 @@
 package com.example.health_information_system.services;
 import com.example.health_information_system.dtos.requests.ClientCreateDTO;
+import com.example.health_information_system.dtos.requests.ClientProfileDTO;
+import com.example.health_information_system.dtos.responses.ProgramDTO;
+import com.example.health_information_system.mappers.ClientProfileMapper;
 import com.example.health_information_system.models.ClientEntity;
-import com.example.health_information_system.models.HealthProgramEntity;
+import com.example.health_information_system.models.ClientProgramEnrollment;
 import com.example.health_information_system.repositories.ClientRepo;
+import com.example.health_information_system.repositories.EnrollmentRepo;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,14 +17,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ClientService {
     ModelMapper modelMapper = new ModelMapper();
     private final ClientRepo clientRepo;
+    private final EnrollmentRepo enrollmentRepo;
+    private final ClientProfileMapper clientProfileMapper;
 
     public void createClient(
             @Valid ClientCreateDTO clientCreateDTO) {
@@ -73,4 +81,27 @@ public class ClientService {
         clientRepo.deleteById(id);
 
     }
+
+    public ClientProfileDTO getClientProfile(Long clientId) {
+        // Fetch the client entity
+        ClientEntity clientEntity = clientRepo.findById(clientId)
+                .orElseThrow(() -> new NoSuchElementException("Client not found"));
+
+        // Fetch the client's enrolled programs from the enrollment repository
+        List<ClientProgramEnrollment> enrollments = enrollmentRepo.findByClient(clientEntity);
+
+        // Map the client entity to ClientProfileDTO
+        ClientProfileDTO clientProfileDTO = clientProfileMapper.map(clientEntity);
+
+        // Map the enrolled programs to ProgramDTO list and add it to the ClientProfileDTO
+        List<ProgramDTO> programDTOs = enrollments.stream()
+                .map(enrollment -> clientProfileMapper.map(enrollment.getProgram()))  // Map HealthProgramEntity to ProgramDTO
+                .collect(Collectors.toList());
+
+        // Set the list of enrolled programs in the DTO
+        clientProfileDTO.setEnrolledPrograms(programDTOs);
+
+        return clientProfileDTO;
+    }
+
 }

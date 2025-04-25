@@ -1,6 +1,7 @@
 package com.example.health_information_system.controllers;
 
 import com.example.health_information_system.dtos.requests.ClientCreateDTO;
+import com.example.health_information_system.dtos.requests.ClientProfileDTO;
 import com.example.health_information_system.dtos.responses.ClientDTO;
 import com.example.health_information_system.dtos.responses.ResponseDTO;
 import com.example.health_information_system.dtos.responses.StatusCodes;
@@ -81,6 +82,21 @@ public class ClientController {
                 StatusCodes.SUCCESS,
                 "client  deleted successfully");
     }
+    @GetMapping("/{clientId}/profile")
+    public ResponseDTO<ClientProfileDTO> getClientProfile(
+            @PathVariable Long clientId) {
+
+        // Fetch the client profile, including their enrolled programs
+        ClientProfileDTO clientProfile = clientService.getClientProfile(clientId);
+
+        // Map to ResponseDTO (if necessary, you can customize the mapping)
+        return new ResponseDTO<>(
+                StatusCodes.SUCCESS,
+                "Successfully fetched client profile",
+                Collections.singletonList(clientProfile)
+        );
+    }
+
 
 
 }
