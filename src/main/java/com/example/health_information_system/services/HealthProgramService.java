@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -21,6 +23,12 @@ public class HealthProgramService {
         HealthProgramEntity healthProgramEntity = modelMapper.map
                 (healthProgramCreateDTO,HealthProgramEntity.class);
         healthProgramRepo.save(healthProgramEntity);
+
+    }
+
+    public HealthProgramEntity getHealthProgram(Long id) {
+       return healthProgramRepo.findById(id).orElseThrow(()
+               -> new NoSuchElementException("healthProgram not found"));
 
     }
 }
