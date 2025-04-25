@@ -57,4 +57,23 @@ public class HealthProgramController {
 
     }
 
+    @PutMapping("/{id}")
+    public ResponseDTO<ProgramDTO>updateProgram(
+            @PathVariable() Long id,
+            @RequestBody @Valid HealthProgramCreateDTO healthProgramCreateDTO
+    ){
+        var response = healthProgramMapper.map(
+                healthProgramService.updateHealthProgram(id,healthProgramCreateDTO));
+
+        return new ResponseDTO<>(
+                StatusCodes.SUCCESS,
+                "Updated a health program successfully",
+                Collections.singletonList(response)
+
+        );
+
+    }
+
+
+
 }

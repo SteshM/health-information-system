@@ -1,8 +1,10 @@
 package com.example.health_information_system.services;
 
 import com.example.health_information_system.dtos.requests.HealthProgramCreateDTO;
+import com.example.health_information_system.dtos.responses.ProgramDTO;
 import com.example.health_information_system.models.HealthProgramEntity;
 import com.example.health_information_system.repositories.HealthProgramRepo;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,18 @@ public class HealthProgramService {
         return healthProgramRepo.findAll(example, page);
 
 
+
+    }
+
+    public HealthProgramEntity updateHealthProgram(
+            Long id,HealthProgramCreateDTO healthProgramCreateDTO) {
+        var healthProgram = healthProgramRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("healthProgram not found"));
+        Optional.ofNullable(healthProgramCreateDTO.getName()).ifPresent(healthProgram::setName);
+        Optional.ofNullable(healthProgram.getDescription()).ifPresent(healthProgram::setDescription);
+        Optional.ofNullable(healthProgram.getStartDate()).ifPresent(healthProgram::setStartDate);
+        Optional.ofNullable(healthProgram.getEndDate()).ifPresent(healthProgram::setEndDate);
+        return healthProgramRepo.save(healthProgram);
 
     }
 }
