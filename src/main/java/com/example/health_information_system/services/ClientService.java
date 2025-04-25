@@ -1,8 +1,8 @@
 package com.example.health_information_system.services;
 import com.example.health_information_system.dtos.requests.ClientCreateDTO;
 import com.example.health_information_system.models.ClientEntity;
-import com.example.health_information_system.models.HealthProgramEntity;
 import com.example.health_information_system.repositories.ClientRepo;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +43,23 @@ public class ClientService {
     public ClientEntity getClient(Long id) {
         return clientRepo.findById(id).orElseThrow(()
                 -> new NoSuchElementException("client not found"));
+
+    }
+
+    public ClientEntity updateClientDetails(
+            Long id, ClientCreateDTO clientCreateDTO) {
+        var clientEntity = clientRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("client not found"));
+        Optional.ofNullable(clientCreateDTO.getFirstName()).ifPresent(clientEntity::setFirstName);
+        Optional.ofNullable(clientCreateDTO.getLastName()).ifPresent(clientEntity::setLastName);
+        Optional.ofNullable(clientCreateDTO.getGender()).ifPresent(clientEntity::setGender);
+        Optional.ofNullable(clientCreateDTO.getEmail()).ifPresent(clientEntity::setEmail);
+        Optional.ofNullable(clientCreateDTO.getDateOfBirth()).ifPresent(clientEntity::setDateOfBirth);
+        Optional.ofNullable(clientCreateDTO.getPhoneNumber()).ifPresent(clientEntity::setPhoneNumber);
+        Optional.ofNullable(clientCreateDTO.getPassword()).ifPresent(clientEntity::setPassword);
+        Optional.ofNullable(clientCreateDTO.getMetaData()).ifPresent(clientEntity::setMetaData);
+
+        return clientRepo.save(clientEntity);
 
     }
 }

@@ -2,7 +2,6 @@ package com.example.health_information_system.controllers;
 
 import com.example.health_information_system.dtos.requests.ClientCreateDTO;
 import com.example.health_information_system.dtos.responses.ClientDTO;
-import com.example.health_information_system.dtos.responses.ProgramDTO;
 import com.example.health_information_system.dtos.responses.ResponseDTO;
 import com.example.health_information_system.dtos.responses.StatusCodes;
 import com.example.health_information_system.mappers.ClientMapper;
@@ -57,6 +56,22 @@ public class ClientController {
         );
     }
 
+    @PutMapping("/{id}")
+    public ResponseDTO<ClientDTO>updateClientDetails(
+            @PathVariable() Long id,
+            @RequestBody @Valid ClientCreateDTO clientCreateDTO
+    ){
+        var response = clientMapper.map(
+                clientService.updateClientDetails(id,clientCreateDTO));
+
+        return new ResponseDTO<>(
+                StatusCodes.SUCCESS,
+                "Updated a client's details successfully",
+                Collections.singletonList(response)
+
+        );
+
+    }
 
 
 }
