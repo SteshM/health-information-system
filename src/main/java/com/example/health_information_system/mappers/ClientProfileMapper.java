@@ -1,6 +1,6 @@
 package com.example.health_information_system.mappers;
 
-import com.example.health_information_system.dtos.requests.ClientProfileDTO;
+import com.example.health_information_system.dtos.responses.ClientProfileDTO;
 import com.example.health_information_system.dtos.responses.ProgramDTO;
 import com.example.health_information_system.models.ClientEntity;
 import com.example.health_information_system.models.HealthProgramEntity;

@@ -1,6 +1,5 @@
-package com.example.health_information_system.dtos.requests;
+package com.example.health_information_system.dtos.responses;
 
-import com.example.health_information_system.dtos.responses.ProgramDTO;
 import lombok.Getter;
 import lombok.Setter;
 

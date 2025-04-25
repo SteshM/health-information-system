@@ -1,7 +1,7 @@
 package com.example.health_information_system.controllers;
 
 import com.example.health_information_system.dtos.requests.ClientCreateDTO;
-import com.example.health_information_system.dtos.requests.ClientProfileDTO;
+import com.example.health_information_system.dtos.responses.ClientProfileDTO;
 import com.example.health_information_system.dtos.responses.ClientDTO;
 import com.example.health_information_system.dtos.responses.ResponseDTO;
 import com.example.health_information_system.dtos.responses.StatusCodes;

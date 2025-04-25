@@ -5,6 +5,7 @@ import com.example.health_information_system.dtos.responses.ClientDTO;
 import com.example.health_information_system.dtos.responses.ResponseDTO;
 import com.example.health_information_system.dtos.responses.StatusCodes;
 import com.example.health_information_system.services.EnrollmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class EnrollmentController {
 
     @PostMapping("/enrol")
     public ResponseDTO<ProgramEnrolDTO>programEnrol(
-            @RequestBody ProgramEnrolDTO programEnrolDTO){
+           @Valid @RequestBody ProgramEnrolDTO programEnrolDTO){
         enrollmentService.enrolToProgram(programEnrolDTO);
         return new ResponseDTO<>(
                 StatusCodes.SUCCESS,
